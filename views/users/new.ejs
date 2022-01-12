@@ -1,0 +1,24 @@
+<div class="h4 mt-4">Добавить пользователя</div>
+
+<form class="mt-4" action="/users/add" method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">Имя</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Э-почта</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <div class="mb-3">
+        <label for="role" class="form-label">Роль</label>
+        <select class="form-select" name="role" id="role">
+            <option value="user">Пользователь</option>
+            <option value="moderator">Модератор</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Добавить</button>
+</form>

@@ -1,0 +1,30 @@
+<div class="h4 mt-4">Редактировать пользователя - "<%= selectedUser.name %> (<%= selectedUser.email %>)"</div>
+
+<% if (selectedUser.id === user.id) { %>
+    <div class="alert alert-danger mt-4" role="alert">Внимание! Это ваш аккаунт. Будьте внимательно!</div>
+<% } %>
+
+<form class="mt-4" action="/users/<%= selectedUser.id %>/edit" method="post">
+    <div class="mb-3">
+        <label for="name" class="form-label">Имя</label>
+        <input type="text" class="form-control" id="name" name="name" value="<%= selectedUser.name %>" required>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Э-почта</label>
+        <input type="email" class="form-control" id="email" name="email" value="<%= selectedUser.email %>" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Новый пароль</label>
+        <input type="password" class="form-control" id="password" name="password">
+    </div>
+    <div class="mb-3">
+        <label for="role" class="form-label">Роль</label>
+        <select class="form-select" name="role" id="role">
+            <option value="user" <%= (selectedUser.role === 'user') ? 'selected' : '' %>>Пользователь</option>
+            <option value="moderator" <%= (selectedUser.role === 'moderator' || selectedUser.role === 'admin') ? 'selected' : '' %>>
+                Модератор
+            </option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-warning">Сохранить</button>
+</form>

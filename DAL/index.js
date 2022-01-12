@@ -10,6 +10,13 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
-db.users = require('./User')(sequelize, Sequelize)
+db.users = require('./User')(sequelize)
+db.sessions = require('./Session')(sequelize)
+
+// db.users.hasMany(db.sessions)
+db.sessions.belongsTo(db.users, {
+  as: 'user',
+  foreignKey: 'user_id'
+})
 
 module.exports = db
