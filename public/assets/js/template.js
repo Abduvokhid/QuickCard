@@ -18,7 +18,7 @@ function addMultiLine () {
 function addSingleSelect () {
   const valueElement = document.createElement('textarea')
   valueElement.className = 'form-control disabled'
-  valueElement.setAttribute('name', `item_${count}_values`)
+  valueElement.setAttribute('name', `item.${count}.values`)
   valueElement.setAttribute('rows', '4')
   valueElement.setAttribute('placeholder', 'Возможные варианты. Каждая строка 1 вариант')
   return valueElement
@@ -27,7 +27,7 @@ function addSingleSelect () {
 function addMultiSelect () {
   const valueElement = document.createElement('textarea')
   valueElement.className = 'form-control disabled'
-  valueElement.setAttribute('name', `item_${count}_values`)
+  valueElement.setAttribute('name', `item.${count}.values`)
   valueElement.setAttribute('rows', '4')
   valueElement.setAttribute('placeholder', 'Возможные варианты. Каждая строка 1 вариант')
   return valueElement
@@ -37,7 +37,7 @@ function addNecessaryElements (value, text) {
   const form = document.getElementById('add_template')
 
   const container = document.createElement('div')
-  container.className = 'd-flex flex-wrap'
+  container.className = 'row pt-3 d-flex flex-wrap'
 
   const labelContainer = document.createElement('div')
   labelContainer.className = 'col-12 col-lg-1 bold'
@@ -52,13 +52,13 @@ function addNecessaryElements (value, text) {
   const nameElement = document.createElement('input')
   nameElement.setAttribute('type', 'text')
   nameElement.className = 'form-control'
-  nameElement.setAttribute('name', `item_${count}_name`)
+  nameElement.setAttribute('name', `item.${count}.name`)
   nameElement.setAttribute('placeholder', 'Название элемента')
 
   const keyElement = document.createElement('input')
   keyElement.setAttribute('type', 'hidden')
-  keyElement.setAttribute('value', 'multi_select')
-  keyElement.setAttribute('name', `item_${count}_key`)
+  keyElement.setAttribute('value', value)
+  keyElement.setAttribute('name', `item.${count}.key`)
 
   const valueContainer = document.createElement('div')
   valueContainer.className = 'col-12 col-md-8 col-lg-7 ps-md-3 mt-2 mt-lg-0'

@@ -15,14 +15,22 @@
     </div>
 </div>
 <hr>
-<form id="add_template" class="row g-3 mt-2">
-    <div class="col-12">
-        <label for="title" class="form-label">Название шаблона:</label>
-        <input type="text" class="form-control" id="title" name="title" placeholder="Шаблон фазы №1">
+<form action="/templates/add" method="post" id="add_template" class="row g-3 mt-2">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <label for="title" class="form-label">Название шаблона:</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Шаблон фазы №1" required>
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="slug" class="form-label mt-2 mt-md-0">Код шаблона:</label>
+            <input type="text" class="form-control" id="slug" name="slug" placeholder="cards" required>
+        </div>
     </div>
-    <span>Элементы:</span>
+    <div class="row pt-3">
+        <span>Элементы:</span>
+    </div>
 </form>
 <div class="col-12 mt-3">
-    <button type="submit" class="btn btn-primary">Добавить</button>
+    <button type="submit" form="add_template" class="btn btn-primary">Добавить шаблон</button>
 </div>
 <script src="/assets/js/template.js"></script>

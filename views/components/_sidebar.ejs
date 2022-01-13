@@ -7,12 +7,16 @@
                     Главная
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link <%= path === '/cards' ? 'active' : '' %>" href="/cards">
-                    <i data-feather="layers"></i>
-                    Карточки
-                </a>
-            </li>
+            <% if (links.length > 0) { %>
+            <% for (const link of links ) { %>
+                <li class="nav-item">
+                    <a class="nav-link <%= path === `/${link.slug}` ? 'active' : '' %>" href="/<%= link.slug %>">
+                        <i data-feather="layers"></i>
+                        <%= link.name %>
+                    </a>
+                </li>
+            <% } %>
+            <% } %>
         </ul>
         <hr>
         <ul class="nav flex-column">

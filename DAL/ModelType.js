@@ -10,6 +10,11 @@ module.exports = (sequelize) => sequelize.define('model_type', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  slug: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
   created_date: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW

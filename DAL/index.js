@@ -3,6 +3,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   host: 'localhost',
   dialect: 'mysql',
   operatorsAliases: false,
+  logging: false
 })
 
 const db = {}

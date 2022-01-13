@@ -10,9 +10,12 @@ module.exports = (sequelize) => sequelize.define('model_item', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  type: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   value: {
     type: DataTypes.TEXT,
-    allowNull: false,
   },
   created_date: {
     type: DataTypes.DATE,
