@@ -1,0 +1,46 @@
+<div class="h4 mt-4">Добавить запись</div>
+
+<form class="mt-4" action="/<%= model.slug %>/add" method="post">
+    <div class="mb-3">
+        <label for="title" class="form-label">Заголовок</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    <% for (const item of items) { %>
+    <% if (item.type === 'single_line') { %>
+        <div class="mb-3">
+            <label for="item_<%= item.id %>" class="form-label"><%= item.name %></label>
+            <input type="text" class="form-control" id="item_<%= item.id %>" name="item_<%= item.id %>" required>
+        </div>
+    <% } %>
+    <% if (item.type === 'multi_line') { %>
+        <div class="mb-3">
+            <label for="item_<%= item.id %>" class="form-label"><%= item.name %></label>
+            <textarea class="form-control" name="item_<%= item.id %>" id="item_<%= item.id %>" rows="5"></textarea>
+        </div>
+    <% } %>
+    <% if (item.type === 'single_select') { %>
+        <div class="mb-3">
+            <label for="item_<%= item.id %>" class="form-label"><%= item.name %></label>
+            <select class="form-select" name="item_<%= item.id %>" id="item_<%= item.id %>">
+                <% for (const value of JSON.parse(item.value)) { %>
+                    <option value="<%= value %>"><%= value %></option>
+                <% } %>
+            </select>
+        </div>
+    <% } %>
+    <% if (item.type === 'multi_select') { %>
+        <div class="mb-3">
+            <label class="form-label"><%= item.name %></label>
+            <% for (const value of JSON.parse(item.value)) { %>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="<%= value %>" name="item_<%= item.id %>" id="<%= item.id %>.<%= value %>">
+                    <label class="form-check-label" for="<%= item.id %>.<%= value %>">
+                        <%= value %>
+                    </label>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+    <% } %>
+    <button type="submit" class="btn btn-success">Добавить</button>
+</form>

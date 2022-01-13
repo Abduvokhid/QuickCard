@@ -15,25 +15,27 @@ function addMultiLine () {
   return valueElement
 }
 
-function addSingleSelect () {
+function addSingleSelect (values) {
   const valueElement = document.createElement('textarea')
   valueElement.className = 'form-control disabled'
   valueElement.setAttribute('name', `item.${count}.values`)
   valueElement.setAttribute('rows', '4')
   valueElement.setAttribute('placeholder', 'Возможные варианты. Каждая строка 1 вариант')
+  if (values) valueElement.textContent = values
   return valueElement
 }
 
-function addMultiSelect () {
+function addMultiSelect (values) {
   const valueElement = document.createElement('textarea')
   valueElement.className = 'form-control disabled'
   valueElement.setAttribute('name', `item.${count}.values`)
   valueElement.setAttribute('rows', '4')
   valueElement.setAttribute('placeholder', 'Возможные варианты. Каждая строка 1 вариант')
+  if (values) valueElement.textContent = values
   return valueElement
 }
 
-function addNecessaryElements (value, text) {
+function addNecessaryElements (value, text, id = undefined, values = undefined) {
   const form = document.getElementById('add_template')
 
   const container = document.createElement('div')
@@ -60,6 +62,14 @@ function addNecessaryElements (value, text) {
   keyElement.setAttribute('value', value)
   keyElement.setAttribute('name', `item.${count}.key`)
 
+  if (id) {
+    const idElement = document.createElement('input')
+    idElement.setAttribute('type', 'hidden')
+    idElement.setAttribute('value', id)
+    idElement.setAttribute('name', `item.${count}.id`)
+    nameContainer.append(idElement)
+  }
+
   const valueContainer = document.createElement('div')
   valueContainer.className = 'col-12 col-md-8 col-lg-7 ps-md-3 mt-2 mt-lg-0'
 
@@ -73,10 +83,10 @@ function addNecessaryElements (value, text) {
       valueElement = addMultiLine()
       break
     case 'single_select':
-      valueElement = addSingleSelect()
+      valueElement = addSingleSelect(values)
       break
     case 'multi_select':
-      valueElement = addMultiSelect()
+      valueElement = addMultiSelect(values)
   }
 
   labelContainer.append(labelElement)
@@ -104,3 +114,28 @@ function onAddElementClick () {
   }
   count = count + 1
 }
+
+function populateOnLoad () {
+  const items = JSON.parse(document.getElementById('items').value)
+
+  for (const item of items) {
+    switch (item.type) {
+      case 'single_line':
+        addNecessaryElements(item.type, 'Single line:', item.id)
+        break
+      case 'multi_line':
+        addNecessaryElements(item.type, 'Multi line:', item.id)
+        break
+      case 'single_select':
+        addNecessaryElements(item.type, 'Single select:', item.id, item.value.join('\r\n'))
+        break
+      case 'multi_select':
+        addNecessaryElements(item.type, 'Multi select:', item.id, item.value.join('\r\n'))
+    }
+  }
+
+  count = 100000
+
+}
+
+window.onload = () => populateOnLoad()

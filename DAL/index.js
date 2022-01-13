@@ -20,22 +20,38 @@ db.record_items = require('./RecordItem')(sequelize)
 
 db.sessions.belongsTo(db.users, {
   as: 'user',
-  foreignKey: 'user_id'
+  foreignKey: 'user_id',
+  onDelete: 'CASCADE'
 })
 
-db.model_items.belongsTo(db.model_types, {
-  as: 'model',
-  foreignKey: 'model_id'
+db.model_types.hasMany(db.model_items, {
+  as: 'items',
+  foreignKey: 'model_id',
+  onDelete: 'CASCADE'
+})
+
+db.records.belongsTo(db.users, {
+  as: 'user',
+  foreignKey: 'user_id',
+  onDelete: 'CASCADE'
 })
 
 db.records.belongsTo(db.model_types, {
   as: 'model',
-  foreignKey: 'model_id'
+  foreignKey: 'model_id',
+  onDelete: 'CASCADE'
 })
 
-db.record_items.belongsTo(db.records, {
-  as: 'record',
-  foreignKey: 'record_id'
+db.records.hasMany(db.record_items, {
+  as: 'items',
+  foreignKey: 'record_id',
+  onDelete: 'CASCADE'
+})
+
+db.record_items.belongsTo(db.model_items, {
+  as: 'model_item',
+  foreignKey: 'model_item_id',
+  onDelete: 'CASCADE'
 })
 
 module.exports = db

@@ -1,0 +1,32 @@
+<script>
+  function onDeleteSubmit () {
+    const confirmation = document.getElementById('confirmation').value
+    if (confirmation === '<%= template.slug %>') {
+      const myForm = document.createElement('form')
+      myForm.setAttribute('action', '/templates/<%= template.id %>/delete')
+      myForm.setAttribute('method', 'post')
+      myForm.setAttribute('hidden', 'true')
+      document.body.appendChild(myForm)
+      myForm.submit()
+    }
+  }
+  function onConfirmationChange () {
+    const confirmation = document.getElementById('confirmation').value
+    const deleteButton = document.getElementById('delete_submit')
+    if (confirmation === '<%= template.slug %>') deleteButton.classList.remove('disabled')
+    else deleteButton.classList.add('disabled')
+  }
+</script>
+
+<div class="h4 mt-4">Удалить шаблон - "<%= template.name %> (<%= template.slug %>)"</div>
+
+<div class="row g-3">
+    <p class="col-12 text-muted mb-0 mt-4">Напишите "<span class="text-danger no-select no-cursor"><%= template.slug %></span>", чтобы подтвердить удаление:</p>
+    <div class="col-auto">
+        <label for="confirmation" class="visually-hidden">Подтвердить</label>
+        <input type="text" class="form-control" id="confirmation" placeholder="<%= template.slug %>" autocomplete="off" oninput="onConfirmationChange()">
+    </div>
+    <div class="col-auto">
+        <button type="button" id="delete_submit" class="btn btn-danger mb-3 disabled" onclick="onDeleteSubmit()">Удалить</button>
+    </div>
+</div>

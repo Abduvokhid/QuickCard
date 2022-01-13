@@ -1,6 +1,7 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const expressLayouts = require('express-ejs-layouts')
+const moment = require('moment')
 const nl2br = require('nl2br')
 const { sessions: Session, model_types: ModelType } = require('../DAL')
 
@@ -21,6 +22,7 @@ router.use((req, res, next) => {
   res.locals.path = req.path
   res.locals.nl2br = nl2br
   req.user_agent = req.get('User-Agent')
+  res.locals.moment = moment
   next()
 })
 

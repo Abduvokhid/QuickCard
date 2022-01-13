@@ -2,12 +2,14 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const sha1 = require('sha1')
 const auth = require('../middlewares/auth')
-const { users: User, sessions: Session } = require('../DAL')
+const { users: User, sessions: Session, model_types: ModelType } = require('../DAL')
 
 const router = express.Router()
 
-router.get('/', auth(), (req, res) => {
-  res.render('home/index')
+router.get('/', auth(), async (req, res) => {
+  const model = await ModelType.findOne({})
+  if (model) return res.redirect(`/${model.slug}`)
+  else return res.redirect('/settings')
 })
 
 router.post('/register', async (req, res) => {
@@ -52,8 +54,8 @@ router.post('/login', async (req, res) => {
 })
 
 router.get('/login', (req, res) => {
-  const error = req.cookies.error
-  res.cookie('error', '', { maxAge: 0 })
+  if (req.user) return res.redirect('/')
+  const error = req.getFlash('error')
   res.render('login', { layout: false, error })
 })
 

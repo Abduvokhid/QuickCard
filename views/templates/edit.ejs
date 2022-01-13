@@ -1,0 +1,37 @@
+<div class="h4 mt-4">Редактировать шаблон - "<%= template.name %> (<%= template.slug%>)"</div>
+<hr>
+<div class="row g-3">
+    <div class="col-auto">
+        <label for="add_element" class="visually-hidden">Добавить элемент:</label>
+        <select id="add_element" class="form-select form-select-sm">
+            <option value="single_line">Single line</option>
+            <option value="multi_line">Multiple lines</option>
+            <option value="single_select">Single select</option>
+            <option value="multi_select">Multi select</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-sm btn-outline-success" onclick="onAddElementClick()">Добавить элемент</button>
+    </div>
+</div>
+<hr>
+<input id="items" type="hidden" value="<%= JSON.stringify(template.items) %>">
+<form action="/templates/add" method="post" id="add_template" class="row g-3 mt-2">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <label for="title" class="form-label">Название шаблона:</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Шаблон фазы №1" required value="<%= template.name %>">
+        </div>
+        <div class="col-12 col-md-6">
+            <label for="slug" class="form-label mt-2 mt-md-0">Код шаблона:</label>
+            <input type="text" class="form-control" id="slug" name="slug" placeholder="cards" required value="<%= template.slug %>">
+        </div>
+    </div>
+    <div class="row pt-3">
+        <span>Элементы:</span>
+    </div>
+</form>
+<div class="col-12 mt-3">
+    <button type="submit" form="add_template" class="btn btn-success">Сохранить шаблон</button>
+</div>
+<script src="/assets/js/template.js"></script>

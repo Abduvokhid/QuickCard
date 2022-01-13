@@ -6,9 +6,6 @@ module.exports = (sequelize) => sequelize.define('record_item', {
     primaryKey: true,
     autoIncrement: true
   },
-  name: {
-    type: DataTypes.STRING
-  },
   value: {
     type: DataTypes.TEXT
   },

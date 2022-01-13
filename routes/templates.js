@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.use(auth('moderator'))
 
+// region ADD TEMPLATE
 router.get('/add', (req, res) => {
   res.render('templates/new')
 })
@@ -35,13 +36,38 @@ router.post('/add', async (req, res) => {
     }
   }
 
-  console.log(req.body)
-  res.redirect('/')
+  req.setFlash('success', `${title} успешно добавлен`)
+  res.redirect('/templates')
 })
+// endregion
+
+// region DELETE TEMPLATE
+router.get('/:id/delete', async (req, res) => {
+  const template = await ModelType.findOne({ where: { id: req.params.id } })
+  if (!template) return res.render('e404')
+  res.render('templates/delete', { template })
+})
+
+router.post('/:id/delete', async (req, res) => {
+  const template = await ModelType.findOne({ where: { id: req.params.id } })
+  if (!template) return res.render('e404')
+  await ModelType.destroy({ where: { id: req.params.id } })
+  res.redirect('/templates')
+})
+// endregion
+
+// region EDIT TEMPLATE
+router.get('/:id/edit', async (req, res) => {
+  const template = await ModelType.findOne({ where: { id: req.params.id }, include: 'items' })
+  if (!template) return res.render('e404')
+  res.render('templates/edit', { template })
+})
+// endregion
 
 router.get('/', async (req, res) => {
   const templates = await ModelType.findAll()
-  res.render('templates/index', { templates })
+  const success = req.getFlash('success')
+  res.render('templates/index', { templates, success })
 })
 
 module.exports = router
