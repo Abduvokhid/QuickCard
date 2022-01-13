@@ -12,11 +12,29 @@ db.sequelize = sequelize
 
 db.users = require('./User')(sequelize)
 db.sessions = require('./Session')(sequelize)
+db.model_types = require('./ModelType')(sequelize)
+db.model_items = require('./ModelItem')(sequelize)
+db.records = require('./Record')(sequelize)
+db.record_items = require('./RecordItem')(sequelize)
 
-// db.users.hasMany(db.sessions)
 db.sessions.belongsTo(db.users, {
   as: 'user',
   foreignKey: 'user_id'
+})
+
+db.model_items.belongsTo(db.model_types, {
+  as: 'model',
+  foreignKey: 'model_id'
+})
+
+db.records.belongsTo(db.model_types, {
+  as: 'model',
+  foreignKey: 'model_id'
+})
+
+db.record_items.belongsTo(db.records, {
+  as: 'record',
+  foreignKey: 'record_id'
 })
 
 module.exports = db

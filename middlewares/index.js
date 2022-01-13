@@ -39,4 +39,6 @@ router.use(async (req, res, next) => {
   return next()
 })
 
+router.use(require('./flash'))
+
 module.exports = router

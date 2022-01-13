@@ -26,7 +26,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body
 
-  const user = await User.findOne({ where: { email: email } })
+  const user = await User.findOne({ where: { email: email.toLowerCase() } })
   if (!user) {
     res.cookie('error', 'Неправильный логин или пароль')
     return res.redirect('/login')
