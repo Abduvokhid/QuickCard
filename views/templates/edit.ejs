@@ -16,7 +16,8 @@
 </div>
 <hr>
 <input id="items" type="hidden" value="<%= JSON.stringify(template.items) %>">
-<form action="/templates/add" method="post" id="add_template" class="row g-3 mt-2">
+<form action="/templates/<%= template.id %>/edit" method="post" id="add_template" class="row g-3 mt-2">
+    <input type="hidden" name="deleted" id="deleted" value="[]">
     <div class="row">
         <div class="col-12 col-md-6">
             <label for="title" class="form-label">Название шаблона:</label>

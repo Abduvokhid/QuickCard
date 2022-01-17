@@ -20,7 +20,8 @@
     "mysql2": "2.3.3",
     "nl2br": "0.0.3",
     "sequelize": "6.13.0",
-    "sha1": "1.1.1"
+    "sha1": "1.1.1",
+    "unflatten": "^1.0.4"
   },
   "devDependencies": {
     "nodemon": "2.0.15"

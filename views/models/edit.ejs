@@ -1,0 +1,46 @@
+<div class="h4 mt-4">Добавить запись</div>
+
+<form class="mt-4" action="/<%= model.slug %>/<%= record.id %>/edit" method="post">
+    <div class="mb-3">
+        <label for="title" class="form-label">Заголовок</label>
+        <input type="text" class="form-control" id="title" name="title" required value="<%= record.title %>">
+    </div>
+    <% for (const item of items) { %>
+        <% if (item.model_item.type === 'single_line') { %>
+            <div class="mb-3">
+                <label for="item_<%= item.model_item.id %>" class="form-label"><%= item.model_item.name %></label>
+                <input type="text" class="form-control" id="item_<%= item.model_item.id %>" name="item_<%= item.model_item.id %>" required value="<%= item.value %>">
+            </div>
+        <% } %>
+        <% if (item.model_item.type === 'multi_line') { %>
+            <div class="mb-3">
+                <label for="item_<%= item.model_item.id %>" class="form-label"><%= item.model_item.name %></label>
+                <textarea class="form-control" name="item_<%= item.model_item.id %>" id="item_<%= item.model_item.id %>" rows="5"><%= item.value %></textarea>
+            </div>
+        <% } %>
+        <% if (item.model_item.type === 'single_select') { %>
+            <div class="mb-3">
+                <label for="item_<%= item.model_item.id %>" class="form-label"><%= item.model_item.name %></label>
+                <select class="form-select" name="item_<%= item.model_item.id %>" id="item_<%= item.model_item.id %>">
+                    <% for (const value of JSON.parse(item.model_item.value)) { %>
+                        <option value="<%= value %>" <%= (item.value === value) ? 'selected' : '' %>><%= value %></option>
+                    <% } %>
+                </select>
+            </div>
+        <% } %>
+        <% if (item.model_item.type === 'multi_select') { %>
+            <div class="mb-3">
+                <label class="form-label"><%= item.model_item.name %></label>
+                <% for (const value of JSON.parse(item.model_item.value)) { %>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="<%= value %>" name="item_<%= item.model_item.id %>" id="<%= item.model_item.id %>.<%= value %>" <%= (JSON.parse(item.value).includes(value)) ? 'checked' : '' %>>
+                        <label class="form-check-label" for="<%= item.model_item.id %>.<%= value %>">
+                            <%= value %>
+                        </label>
+                    </div>
+                <% } %>
+            </div>
+        <% } %>
+    <% } %>
+    <button type="submit" class="btn btn-success">Сохранить</button>
+</form>

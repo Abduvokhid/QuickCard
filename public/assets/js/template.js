@@ -1,4 +1,21 @@
-let count = 1
+let count = 0
+
+function deleteItem (count) {
+  return function () {
+    const idElement = document.getElementById(`item.${count}.id`)
+    if (idElement) {
+      const deletedElement = document.getElementById('deleted')
+      if (deletedElement) {
+        const list = JSON.parse(deletedElement.value)
+        list.push(idElement.value)
+        deletedElement.value = JSON.stringify(list)
+      }
+    }
+    const element = document.getElementById(`item.${count}.name`)
+    const parent = element.parentElement.parentElement
+    parent.remove()
+  }
+}
 
 function addSingleLine () {
   const valueElement = document.createElement('input')
@@ -35,7 +52,7 @@ function addMultiSelect (values) {
   return valueElement
 }
 
-function addNecessaryElements (value, text, id = undefined, values = undefined) {
+function addNecessaryElements (value, text, id = undefined, name = undefined, values = undefined) {
   const form = document.getElementById('add_template')
 
   const container = document.createElement('div')
@@ -55,7 +72,9 @@ function addNecessaryElements (value, text, id = undefined, values = undefined) 
   nameElement.setAttribute('type', 'text')
   nameElement.className = 'form-control'
   nameElement.setAttribute('name', `item.${count}.name`)
+  nameElement.setAttribute('id', `item.${count}.name`)
   nameElement.setAttribute('placeholder', 'Название элемента')
+  if (name) nameElement.value = name
 
   const keyElement = document.createElement('input')
   keyElement.setAttribute('type', 'hidden')
@@ -67,11 +86,12 @@ function addNecessaryElements (value, text, id = undefined, values = undefined) 
     idElement.setAttribute('type', 'hidden')
     idElement.setAttribute('value', id)
     idElement.setAttribute('name', `item.${count}.id`)
+    idElement.setAttribute('id', `item.${count}.id`)
     nameContainer.append(idElement)
   }
 
   const valueContainer = document.createElement('div')
-  valueContainer.className = 'col-12 col-md-8 col-lg-7 ps-md-3 mt-2 mt-lg-0'
+  valueContainer.className = 'col-12 col-md-87 col-lg-6 ps-md-3 mt-2 mt-lg-0'
 
   let valueElement
 
@@ -89,11 +109,22 @@ function addNecessaryElements (value, text, id = undefined, values = undefined) 
       valueElement = addMultiSelect(values)
   }
 
+  const deleteContainer = document.createElement('div')
+  deleteContainer.className = 'col-12 col-md-1 ps-md-3 mt-2 mt-lg-0'
+
+  const deleteElement = document.createElement('button')
+  deleteElement.className = 'btn btn-danger'
+  deleteElement.textContent = 'Удалить'
+  deleteElement.type = 'button'
+  deleteElement.onclick = deleteItem(count)
+
   labelContainer.append(labelElement)
   nameContainer.append(nameElement, keyElement)
   valueContainer.append(valueElement)
-  container.append(labelContainer, nameContainer, valueContainer)
+  deleteContainer.append(deleteElement)
+  container.append(labelContainer, nameContainer, valueContainer, deleteContainer)
   form.append(container)
+  count = count + 1
 }
 
 function onAddElementClick () {
@@ -112,30 +143,29 @@ function onAddElementClick () {
     case 'multi_select':
       addNecessaryElements(value, 'Multi select:')
   }
-  count = count + 1
 }
 
 function populateOnLoad () {
-  const items = JSON.parse(document.getElementById('items').value)
+  const element = document.getElementById('items')
+  if (!element) return
+  const items = JSON.parse(element.value)
+  console.log(items)
 
   for (const item of items) {
     switch (item.type) {
       case 'single_line':
-        addNecessaryElements(item.type, 'Single line:', item.id)
+        addNecessaryElements(item.type, 'Single line:', item.id, item.name)
         break
       case 'multi_line':
-        addNecessaryElements(item.type, 'Multi line:', item.id)
+        addNecessaryElements(item.type, 'Multi line:', item.id, item.name)
         break
       case 'single_select':
-        addNecessaryElements(item.type, 'Single select:', item.id, item.value.join('\r\n'))
+        addNecessaryElements(item.type, 'Single select:', item.id, item.name, JSON.parse(item.value).join('\r\n'))
         break
       case 'multi_select':
-        addNecessaryElements(item.type, 'Multi select:', item.id, item.value.join('\r\n'))
+        addNecessaryElements(item.type, 'Multi select:', item.id, item.name, JSON.parse(item.value).join('\r\n'))
     }
   }
-
-  count = 100000
-
 }
 
 window.onload = () => populateOnLoad()
